@@ -1,4 +1,5 @@
-- git clone
+- git clone https://github.com/webmclink/basic-laravel-crud.git laravel-crud
+- cd laravel-crud
 - composer install
 - cp .env.example .env
 - php artisan key:generate
