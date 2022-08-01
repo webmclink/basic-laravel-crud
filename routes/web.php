@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\TestMailController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,3 +28,6 @@ Route::put('/books/{book}', [BookController::class, 'update'])->name('books.upda
 
 //delete book
 Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+
+//send mail
+Route::get('/test-email', [TestMailController::class, 'store']);

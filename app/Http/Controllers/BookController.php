@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBooksRequest;
+use App\Http\Requests\UpdateBooksRequest;
 
 class BookController extends Controller
 {
@@ -20,55 +22,38 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreBooksRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'author' => 'nullable|string'
-        ]);
+        $data = $request->validated();
 
-        Book::create([
-            'name' => $data['name'],
-            'author' => $data['author']
-        ]);
+        Book::create($data);
 
         return redirect()->route('books.index');
     }
 
-    public function show($book)
+    public function show(Book $book)
     {
-        $book = Book::findOrFail($book);
-
         return view('books.show', compact('book'));
     }
 
-    public function edit($book)
+    public function edit(Book $book)
     {
-        $book = Book::findOrFail($book);
-
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, $book)
+    public function update(UpdateBooksRequest $request, $book)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'author' => 'nullable|string'
-        ]);
+        $data = $request->validated();
 
         $book = Book::findOrFail($book);
 
-        $book->name = $data['name'];
-        $book->author = $data['author'];
-        $book->save();
+        $book->update($data);
 
         return redirect()->route('books.index');
     }
 
-    public function destroy($book)
+    public function destroy(Book $book)
     {
-        $book = Book::findOrFail($book);
-
         $book->delete();
 
         return redirect()->route('books.index');
